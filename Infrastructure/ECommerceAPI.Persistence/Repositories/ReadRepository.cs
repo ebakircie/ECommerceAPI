@@ -22,25 +22,50 @@ namespace ECommerceAPI.Persistence.Repositories
 
         public DbSet<T> Table => _context.Set<T>();
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(bool tracking = true)
         {
-            return Table;
+            var query = Table.AsQueryable();
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            return query;
         }
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method)
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> method, bool tracking = true)
         {
-            return Table.Where(method);
+            var query = Table.Where(method);
+            if (!tracking)
+            {
+                query = query.AsNoTracking();
+            }
+            return query;
         }
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method)
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method, bool tracking = true)
         {
-            return await Table.FirstOrDefaultAsync(method);
+            var query = Table.AsQueryable();
+            if (!tracking)
+            {
+                query = Table.AsNoTracking();
+            }
+            return await query.FirstOrDefaultAsync(method);
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(string id, bool tracking = true)
         {
-            return await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); 
-            
-            // If Generic constraints was ' where T : class ', i couldnt reach Id but if constraint it with BaseEntity, i can reach it's members.
+            // return await Table.FindAsync(Guid.Parse(id));
+            //NOTE: If the ORM which we use doesnt have method like 'Find' or 'FindAsync' we can implement Marker pattern like below. Otherwise we can benefit EntityFramework's Find method. but IQuerryable doesnt have find method. so we use Marker Pattern
+
+            //return await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); 
+            //NOTE: If Generic constraints was ' where T : class ', i couldnt reach Id but if constraint it with BaseEntity, i can reach it's members. It's called Marker Pattern
+
+            var query = Table.AsQueryable();
+            if (!tracking)
+            {
+                query = Table.AsNoTracking();
+            }
+            return await query.FirstOrDefaultAsync(x => x.Id == Guid.Parse(id));
+
         }
     }
 }
