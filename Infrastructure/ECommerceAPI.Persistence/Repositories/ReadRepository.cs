@@ -54,10 +54,11 @@ namespace ECommerceAPI.Persistence.Repositories
         public async Task<T> GetByIdAsync(string id, bool tracking = true)
         {
             // return await Table.FindAsync(Guid.Parse(id));
-            //NOTE: If the ORM which we use doesnt have method like 'Find' or 'FindAsync' we can implement Marker pattern like below. Otherwise we can benefit EntityFramework's Find method. but IQuerryable doesnt have find method. so we use Marker Pattern
+            //NOTE: Marker Pattern (where T : BaseEntity) 
+            //If the ORM which we use doesnt have method like 'Find' or 'FindAsync' we can implement Marker pattern like below. Otherwise we can benefit EntityFramework's Find method. but IQuerryable doesnt have find method. so we use Marker Pattern
 
             //return await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id)); 
-            //NOTE: If Generic constraints was ' where T : class ', i couldnt reach Id but if constraint it with BaseEntity, i can reach it's members. It's called Marker Pattern
+            //If Generic constraints was ' where T : class ', i couldnt reach Id but if constraint it with BaseEntity, i can reach it's members. It's called Marker Pattern
 
             var query = Table.AsQueryable();
             if (!tracking)

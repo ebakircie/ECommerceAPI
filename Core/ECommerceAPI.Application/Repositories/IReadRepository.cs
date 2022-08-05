@@ -16,5 +16,5 @@ namespace ECommerceAPI.Application.Repositories
         Task<T> GetByIdAsync(string id, bool tracking = true);        
     }
 }
-
-//NOTE:Tracking And NoTracking. EntityFramework Core has Tracking mechanism which is responsible for tracking the changes made upon entity. When we retrive entities (does'nt matter how many, whole data or just one) EF store them in cache and check whatever changes made (add update delete ) until SaveChanges called. So when your query is meant for read operations we dont have to track entities to save Memory usage.
+//NOTE: Tracking and NoTracking
+//EntityFramework Core has Tracking mechanism which is responsible for tracking the changes made upon entity. When we retrive entities (doesn't matter how many, whole data or just one) EF store them in cache and check whatever changes made (add update delete ) until SaveChanges called. So when your query is meant for read operations we dont have to track entities to save Memory usage.
