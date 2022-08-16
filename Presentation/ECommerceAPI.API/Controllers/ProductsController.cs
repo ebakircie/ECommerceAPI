@@ -34,11 +34,10 @@ namespace ECommerceAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateProductVM model) 
         {
-            //Product product = new Product();
-            //product.Name = model.Name;
-            //product.Price = model.Price;
-            //product.Stock = model.Stock;
-            //await _productWriteRepository.AddAsync(product);
+            if (ModelState.IsValid)
+            {
+
+            }
             await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
